@@ -1,0 +1,106 @@
+<html>
+<head>
+<meta charset= 'utf-8' />
+<title>Will C Formative</title>
+<style>
+  * {padding: 0; margin: 0; }
+  canvas {background: #eee; display: block; margin: 0 auto; }
+</style>
+</head>
+<body>
+
+  <canvas id='mC' width= '300' height= '300'></canvas>
+
+  <script>
+  var canvas = document.getElementById('mC');
+  var ctx = canvas.getContext('2d');
+  var sX = 30
+  var sY = 30
+  var sTX = (canvas.width/2)-(sX/2);
+  var sTY = (canvas.height/2)-(sY/2);
+  var uPres = false;
+  var dPres = false;
+  var lPres = false;
+  var rPres = false;
+
+  document.addEventListener('keydown', keyDownHandler, false);
+  document.addEventListener('keyup', keyUpHandler, false);
+
+  function keyDownHandler(e) {
+    if(e.keyCode == 38) {
+        uPres = true;
+    }
+    else if(e.keyCode == 40) {
+        dPres = true;
+    }
+    else if(e.keyCode == 39) {
+        rPres = true;
+    }
+    else if(e.keyCode == 37) {
+        lPres = true;
+    }
+}
+
+function keyUpHandler(e) {
+  if(e.keyCode == 38) {
+      uPres = false;
+  }
+  else if(e.keyCode == 40) {
+      dPres = false;
+  }
+  else if(e.keyCode == 39) {
+      rPres = false;
+  }
+  else if(e.keyCode == 37) {
+      lPres = false;
+  }
+}
+
+    function drawRect() {
+      ctx.beginPath();
+      ctx.rect(sTX, sTY, sX, sY)
+      ctx.fillStyle= '#FF9900'
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawRect();
+
+      if(dPres) {
+        sTY += 5;
+      } else if(uPres) {
+        sTY -= 5;
+      } else if(lPres) {
+        sTX -= 5;
+      } else if(rPres) {
+        sTX += 5;
+      }
+
+      if(sTY < 0) {
+        alert('game over');
+        document.location.reload();
+      }
+      else if (sTY > canvas.width-sY) {
+        alert('game over');
+        document.location.reload();
+      }
+
+      if(sTX < 0) {
+        alert('game over');
+        document.location.reload();
+      }
+      else if (sTX > canvas.height-sX) {
+        alert('game over');
+        document.location.reload();
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
+
+</body>
+</html>
